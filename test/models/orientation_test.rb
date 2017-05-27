@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 class OrientationTest < Minitest::Test
 
   def setup
-    @map = Map.new(3, 3)
+    @map = Map.new("5 5")
   end
 
   ## NORTHFACED

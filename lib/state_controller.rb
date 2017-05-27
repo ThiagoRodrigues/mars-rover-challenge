@@ -1,11 +1,11 @@
+
 class StateController
 
-   attr_accessor :current_position, :map
+   attr_accessor :current_position, :map, :orientation
 
   def initialize(coordinates, map)
     @map = map
-    set_current_position(coordinates)
-    @orientation = Orientation.get_orientation(@current_position[:heading])
+    update_position(coordinates)
   end
 
   def report_position
@@ -14,22 +14,26 @@ class StateController
 
   def move_foward
     coordinates = @orientation.move_foward
-    set_current_position(coordinates)
+    if valid_coordinates?(coordinates)
+      update_position(coordinates)
+      return
+    end
+    puts "Sorry, can't move this way!"
   end
 
   def turn_left
     coordinates = @orientation.turn_left
-    set_current_position(coordinates)
+    update_position(coordinates)
   end
 
   def turn_right
     coordinates = @orientation.turn_right
-    set_current_position(coordinates)
+    update_position(coordinates)
   end
 
   private
 
-  def set_current_position(coordinates)
+  def update_position(coordinates)
     coordinates = coordinates.split if coordinates.is_a? String
 
     @current_position ||= { axis_x: 0, axis_y: 0, heading: nil }
@@ -37,5 +41,15 @@ class StateController
     @current_position[:axis_x] += coordinates[0].to_i
     @current_position[:axis_y] += coordinates[1].to_i
     @current_position[:heading] = coordinates[2]
+
+    @orientation = Orientation.get_orientation(@current_position[:heading])
   end
+
+  def valid_coordinates?(coordinates)
+    @map.match_boundary?(
+      @current_position[:axis_y] + coordinates[0],
+      @current_position[:axis_y] + coordinates[1]
+    )
+  end
+
 end

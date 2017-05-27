@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 class StateControllerTest < Minitest::Test
 
   def setup
-    @controller = StateController.new("1 2 W", Map.new(3, 3))
+    @controller = StateController.new("1 2 W", Map.new("5 5"))
   end
 
   def test_report_position
