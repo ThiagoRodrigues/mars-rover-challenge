@@ -9,6 +9,7 @@ class Rover
   def process_commands(instructions)
     instructions.split('').each do |command|
       execute(command.upcase)
+      puts report_position
     end
   end
 
