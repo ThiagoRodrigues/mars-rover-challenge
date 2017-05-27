@@ -5,7 +5,7 @@ class StateController
   def initialize(coordinates, map)
     @map = map
     set_current_position(coordinates)
-    # @controller =
+    @orientation = Orientation.get_orientation(@current_position[:heading])
   end
 
   def report_position
@@ -13,17 +13,17 @@ class StateController
   end
 
   def move_foward
-    coordinates = [-1, 0, "W"]
+    coordinates = @orientation.move_foward
     set_current_position(coordinates)
   end
 
   def turn_left
-    coordinates = [0, 0, "S"]
+    coordinates = @orientation.turn_left
     set_current_position(coordinates)
   end
 
   def turn_right
-    coordinates = [0, 0, "N"]
+    coordinates = @orientation.turn_right
     set_current_position(coordinates)
   end
 
